@@ -1,29 +1,17 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Cancha, CanchaDocument } from '../schemas/cancha.schema';
-import { Reserva, ReservaDocument } from '../schemas/reserva.schema';
+import { Controller, Get, Query } from '@nestjs/common';
+import { CanchasService } from './canchas.service';
 
-@Injectable()
-export class CanchasService {
-  constructor(
-    @InjectModel(Cancha.name) private canchaModel: Model<CanchaDocument>,
-    @InjectModel(Reserva.name) private reservaModel: Model<ReservaDocument>,
-  ) {}
+@Controller('canchas')
+export class CanchasController {
+  constructor(private readonly canchasService: CanchasService) {}
 
-  async obtenerDisponibles(fechaInicio: Date, fechaFin: Date) {
-    const reservas = await this.reservaModel.find({
-      $or: [
-        { fechaInicio: { $lt: fechaFin }, fechaFin: { $gt: fechaInicio } },
-      ],
-    });
-
-    const canchasOcupadas = reservas.map(r => r.cancha);
-
-    const canchasDisponibles = await this.canchaModel.find({
-      nombre: { $nin: canchasOcupadas },
-    });
-
-    return canchasDisponibles;
+  @Get('disponibles')
+  async getDisponibles(
+    @Query('inicio') inicio: string,
+    @Query('fin') fin: string,
+  ) {
+    const fechaInicio = new Date(inicio);
+    const fechaFin = new Date(fin);
+    return this.canchasService.obtenerDisponibles(fechaInicio, fechaFin);
   }
 }
