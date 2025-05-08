@@ -1,4 +1,4 @@
-// src/reservas/schemas/reserva.schema.ts
+
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
@@ -16,7 +16,7 @@ export class Reserva {
   fecha: Date;
 
   @Prop()
-  estado: string; // pendiente, confirmada, cancelada
+  estado: string;
 }
 
 export const ReservaSchema = SchemaFactory.createForClass(Reserva);

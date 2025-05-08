@@ -1,4 +1,4 @@
-// src/reservas/reservas.controller.ts
+
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { ReservasService } from './reservas.service';
 import { Reserva } from '../schemas/reserva.schema';

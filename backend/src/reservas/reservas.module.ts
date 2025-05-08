@@ -1,4 +1,4 @@
-// src/reservas/reservas.module.ts
+
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ReservasController } from './reservas.controller';
